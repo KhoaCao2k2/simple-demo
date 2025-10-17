@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-demo
+  namespace: argocd-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-demo
+  template:
+    metadata:
+      labels:
+        app: simple-demo
+    spec:
+      containers:
+      - name: simple-demo
+        image: simple-demo:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"

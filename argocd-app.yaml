@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-demo-app
+  namespace: argocd  # ArgoCD apps must live in the argocd namespace
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-username/your-repo.git
+    targetRevision: HEAD
+    path: argocd/app/simple-demo/k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: simple-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true   # <-- ✅ Auto-create namespace if missing
