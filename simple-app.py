@@ -17,7 +17,14 @@ async def hello():
         "status": "OK",
         "version": "1.0.0"
     }
-
+@app.get("/11")
+async def hello():
+    """Endpoint đơn giản để test"""
+    return {
+        "message": "11",
+        "status": "OK",
+        "version": "1.0.0"
+    }
 @app.get("/health")
 async def health():
     """Health check endpoint"""
