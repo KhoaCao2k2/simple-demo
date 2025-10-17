@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: simple-demo
-  namespace: argocd-demo
+  namespace: simple-demo
 spec:
   replicas: 1
   selector:
@@ -16,6 +16,7 @@ spec:
       containers:
       - name: simple-demo
         image: simple-demo:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 8000
         resources:
