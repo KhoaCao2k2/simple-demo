@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/your-username/your-repo.git
+    repoURL: https://github.com/KhoaCao2k2/simple-demo
     targetRevision: HEAD
-    path: argocd/app/simple-demo/k8s
+    path: k8s
   destination:
     server: https://kubernetes.default.svc
     namespace: simple-demo
