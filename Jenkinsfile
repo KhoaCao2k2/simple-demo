@@ -58,8 +58,7 @@ pipeline {
             }
         }
 
-        // Uncomment these stages if you want to push to Docker Hub
-        /*
+        
         stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing Docker image to Docker Hub...'
@@ -76,17 +75,6 @@ pipeline {
 
                     // Logout from Docker Hub
                     sh "docker logout"
-                }
-            }
-        }*/
-
-        stage('Cleanup') {
-            steps {
-                echo 'Cleaning up local Docker images...'
-                script {
-                    // Remove local images to save space
-                    sh "docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true"
-                    sh "docker rmi ${DOCKER_IMAGE}:latest || true"
                 }
             }
         }
