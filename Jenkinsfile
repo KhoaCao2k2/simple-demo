@@ -36,13 +36,13 @@ pipeline {
                             echo "Container started, waiting for application to be ready..."
                             sleep 10
 
-                            # Test health endpoint
+                            # Test health endpoint using Docker container with curl
                             echo "Testing health endpoint..."
-                            curl -f http://localhost:8000/health || (echo "Health check failed" && exit 1)
+                            docker run --rm --network host curlimages/curl:latest curl -f http://localhost:8000/health || (echo "Health check failed" && exit 1)
                             
                             # Test main endpoint
                             echo "Testing main endpoint..."
-                            curl -f http://localhost:8000/ || (echo "Main endpoint failed" && exit 1)
+                            docker run --rm --network host curlimages/curl:latest curl -f http://localhost:8000/ || (echo "Main endpoint failed" && exit 1)
 
                             echo "✅ All tests passed!"
                         """
