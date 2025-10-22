@@ -27,11 +27,25 @@ pipeline {
                         // Run the container to test if it starts properly
                         sh """
                             docker run -d --name test-container -p 8000:8000 ${DOCKER_IMAGE}:${DOCKER_TAG}
-                            sleep 10
+                            echo "Container started, waiting for application to be ready..."
+                            sleep 15
+                            
+                            # Check if container is still running
+                            docker ps | grep test-container || (echo "Container stopped unexpectedly" && docker logs test-container && exit 1)
+                            
+                            # Check container logs for any errors
+                            echo "Container logs:"
+                            docker logs test-container
+                            
                             # Test health endpoint
-                            curl -f http://localhost:8000/health || exit 1
+                            echo "Testing health endpoint..."
+                            curl -f http://localhost:8000/health || (echo "Health check failed" && exit 1)
+                            
                             # Test main endpoint
-                            curl -f http://localhost:8000/ || exit 1
+                            echo "Testing main endpoint..."
+                            curl -f http://localhost:8000/ || (echo "Main endpoint failed" && exit 1)
+                            
+                            echo "✅ All tests passed!"
                         """
                     } finally {
                         // Clean up test container even if tests fail
@@ -64,7 +78,7 @@ pipeline {
                     sh "docker logout"
                 }
             }
-        }
+        }*/
 
         stage('Cleanup') {
             steps {
@@ -76,7 +90,7 @@ pipeline {
                 }
             }
         }
-        */
+        
     } 
 
     post {
