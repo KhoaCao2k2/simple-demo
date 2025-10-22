@@ -13,7 +13,7 @@ app = FastAPI(title="ArgoCD Simple Demo", version="1.0.0")
 async def hello():
     """Endpoint đơn giản để test"""
     return {
-        "message": "Xin chào! Đây là demo ArgoCD đơn giản",
+        "message": "Xin chào! Đây là demo ArgoCD đơn giản được pull từ khoacao2002/simple-demo-argocd repository",
         "status": "OK",
         "version": "1.0.0"
     }
