@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
 
     environment {
         DOCKER_IMAGE = 'khoacao2002/simple-demo-argocd'
@@ -26,8 +31,8 @@ pipeline {
                     try {
                         // Run the container to test if it starts properly
                         sh """
-                            # Use a different port to avoid conflicts
-                            docker run -d --name test-container -p 8000:8000 ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            # Use host networking so Jenkins can access the container
+                            docker run -d --name test-container --network host ${DOCKER_IMAGE}:${DOCKER_TAG}
                             echo "Container started, waiting for application to be ready..."
                             sleep 10
 
@@ -35,6 +40,9 @@ pipeline {
                             echo "Testing health endpoint..."
                             curl -f http://localhost:8000/health || (echo "Health check failed" && exit 1)
                             
+                            # Test main endpoint
+                            echo "Testing main endpoint..."
+                            curl -f http://localhost:8000/ || (echo "Main endpoint failed" && exit 1)
 
                             echo "✅ All tests passed!"
                         """
