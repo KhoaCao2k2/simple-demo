@@ -35,7 +35,7 @@ pipeline {
 
                             # Test health endpoint
                             echo "Testing health endpoint..."
-                            curl -f http://localhost:8001/health || (echo "Health check failed" && exit 1)
+                            curl -f http://localhost:8000/health || (echo "Health check failed" && exit 1)
                             
 
                             echo "✅ All tests passed!"
