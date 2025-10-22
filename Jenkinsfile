@@ -29,7 +29,7 @@ pipeline {
                             # Use a different port to avoid conflicts
                             docker run -d --name test-container -p 8000:8000 ${DOCKER_IMAGE}:${DOCKER_TAG}
                             echo "Container started, waiting for application to be ready..."
-                            sleep 10
+                            sleep 20
 
                 
 
