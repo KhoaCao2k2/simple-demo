@@ -26,7 +26,8 @@ pipeline {
                     try {
                         // Run the container to test if it starts properly
                         sh """
-                            docker run -d --name test-container -p 8000:8000 ${DOCKER_IMAGE}:${DOCKER_TAG}
+                            # Use a different port to avoid conflicts
+                            docker run -d --name test-container -p 8001:8000 ${DOCKER_IMAGE}:${DOCKER_TAG}
                             echo "Container started, waiting for application to be ready..."
                             sleep 15
                             
@@ -37,13 +38,17 @@ pipeline {
                             echo "Container logs:"
                             docker logs test-container
                             
+                            # Check what's listening on ports
+                            echo "Checking port 8001..."
+                            netstat -tlnp | grep 8001 || echo "Port 8001 not listening"
+                            
                             # Test health endpoint
                             echo "Testing health endpoint..."
-                            curl -f http://localhost:8000/health || (echo "Health check failed" && exit 1)
+                            curl -f http://localhost:8001/health || (echo "Health check failed" && exit 1)
                             
                             # Test main endpoint
                             echo "Testing main endpoint..."
-                            curl -f http://localhost:8000/ || (echo "Main endpoint failed" && exit 1)
+                            curl -f http://localhost:8001/ || (echo "Main endpoint failed" && exit 1)
                             
                             echo "✅ All tests passed!"
                         """
