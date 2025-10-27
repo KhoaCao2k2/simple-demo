@@ -19,7 +19,6 @@ pipeline {
                 script {
                     // Build Docker image with build number as tag
                     sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                    sh "docker build -t ${DOCKER_IMAGE}:latest ."
                 }
             }
         }
@@ -70,7 +69,6 @@ pipeline {
 
                     // Push both tagged and latest versions
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    sh "docker push ${DOCKER_IMAGE}:latest"
 
                     // Logout from Docker Hub
                     sh "docker logout"
