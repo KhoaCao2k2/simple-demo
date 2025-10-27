@@ -16,7 +16,7 @@ spec:
       containers:
       - name: simple-demo
         image: khoacao2002/simple-demo-argocd:26
-        imagePullPolicy: always
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         resources:
